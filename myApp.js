@@ -28,7 +28,7 @@ const createAndSavePerson = (done) => {
 
 
 const arrayOfPeople = [
-  { name: "Max", age: 41, favoriteFoods: ["Pasta"] },
+  { name: "Maxy", age: 41, favoriteFoods: ["Pasta"] },
   { name: "Pusa", age: 11, favoriteFoods: ["Pizza"] },
   { name: "Tommy", age: 39, favoriteFoods: ["Soup", "Penne"] }
 ];
@@ -93,7 +93,7 @@ const removeById = (personId, done) => {
 };
 
 const removeManyPeople = (done) => {
-  const nameToRemove = "Max";
+  const nameToRemove = "Mary";
 
   Person.remove({ name: nameToRemove }, (err, personsDeleted) => {
     if (err) return console.error(err);
@@ -101,10 +101,18 @@ const removeManyPeople = (done) => {
   })
 };
 
+
 const queryChain = (done) => {
   const foodToSearch = "burrito";
 
-  done(null /*, data*/);
+  Person.find({ favoriteFoods: foodToSearch })
+    .sort({ name: 1 }) //sort by name
+    .limit(2) //only 2 results
+    .select({ age: 0 })  //hide age
+    .exec((err, twoPersonFound) => {
+      if (err) return console.error(err);
+      done(null, twoPersonFound)
+    })
 };
 
 /** **Well Done !!**
