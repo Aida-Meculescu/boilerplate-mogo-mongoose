@@ -7,7 +7,14 @@ const db = mongoose.connection
 db.on("erroe", error => console.log(error))
 db.once('open', () => console.log('Connected to Mongoose'))
 
-let Person;
+
+const { Schema } = mongoose;
+const personSchema = new Schema({
+  name: { type: String, required: true },
+  age: Number,
+  favoriteFoods: [String]
+});
+const Person = mongoose.model("Person", personSchema);
 
 const createAndSavePerson = (done) => {
   done(null /*, data*/);
